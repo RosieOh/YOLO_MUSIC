@@ -1,6 +1,8 @@
 package kr.co.yolomusic.dao;
 
 import kr.co.yolomusic.dto.Board;
+import kr.co.yolomusic.dto.BoardComment;
+import kr.co.yolomusic.util.Page;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,24 +16,24 @@ public class BoardDAOImpl implements BoardDAO {
     private SqlSession sqlSession;
 
     @Override
-    public List<Board> boardList() throws Exception {
-        return sqlSession.selectList("board.boardList");
+    public List<Board> boardList(Page page) throws Exception {
+        return sqlSession.selectList("board.boardList", page);
     }
 
     @Override
-    public Board boardDetail(int seq) throws Exception {
-        sqlSession.update("board.countUp", seq);
-        return sqlSession.selectOne("board.boardDetail", seq);
+    public Board boardDetail(int bno) throws Exception {
+        sqlSession.update("board.countUp", bno);
+        return sqlSession.selectOne("board.boardDetail", bno);
     }
 
     @Override
     public void boardInsert(Board dto) throws Exception {
-        sqlSession.insert("board.boardInset", dto);
+        sqlSession.insert("board.boardInsert", dto);
     }
 
     @Override
-    public void boardDelete(int seq) throws Exception {
-        sqlSession.delete("board.boardDelete", seq);
+    public void boardDelete(int bno) throws Exception {
+        sqlSession.delete("board.boardDelete", bno);
     }
 
     @Override
@@ -40,7 +42,37 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public int addBoard(Board board) {
-        return 0;
+    public int totalCount(Page page) throws Exception {
+        return sqlSession.selectOne("board.totalCount", page);
+    }
+
+    @Override
+    public List<BoardComment> boardCommentList(int bno) throws Exception {
+        return sqlSession.selectList("board.boardCommentList", bno);
+    }
+
+    @Override
+    public void commentInsert(BoardComment dto) throws Exception {
+        sqlSession.insert("board.commentInsert", dto);
+    }
+
+    @Override
+    public void commentDelete(int cno) throws Exception {
+        sqlSession.delete("board.commentDelete", cno);
+    }
+
+    @Override
+    public List<Board> selectComment() throws Exception {
+        return sqlSession.selectList("board.selectComment");
+    }
+
+    @Override
+    public List<Board> commentCount() throws Exception {
+        return sqlSession.selectList("board.commentCount");
+    }
+
+    @Override
+    public List<Board> newBoard() throws Exception {
+        return sqlSession.selectList("board.newBoard");
     }
 }

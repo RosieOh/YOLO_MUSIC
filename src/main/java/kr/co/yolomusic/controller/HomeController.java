@@ -14,12 +14,6 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home(Locale locale, Model model) {
-        Date date = new Date();
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,
-                                DateFormat.LONG, locale);
-        String today = dateFormat.format(date);
-        model.addAttribute("today", today);
-        model.addAttribute("myName", "오태훈");
         return "/index";
     }
 }

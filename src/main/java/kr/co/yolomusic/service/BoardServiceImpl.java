@@ -2,6 +2,8 @@ package kr.co.yolomusic.service;
 
 import kr.co.yolomusic.dao.BoardDAO;
 import kr.co.yolomusic.dto.Board;
+import kr.co.yolomusic.dto.BoardComment;
+import kr.co.yolomusic.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,13 @@ public class BoardServiceImpl implements BoardService {
     private BoardDAO boardDAO;
 
     @Override
-    public List<Board> boardList() throws Exception {
-        return boardDAO.boardList();
+    public List<Board> boardList(Page page) throws Exception {
+        return boardDAO.boardList(page);
     }
 
     @Override
-    public Board boardDetail(int seq) throws Exception {
-        return boardDAO.boardDetail(seq);
+    public Board boardDetail(int bno) throws Exception {
+        return boardDAO.boardDetail(bno);
     }
 
     @Override
@@ -29,12 +31,47 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void boardDelete(int seq) throws Exception {
-        boardDAO.boardDelete(seq);
+    public void boardDelete(int bno) throws Exception {
+        boardDAO.boardDelete(bno);
     }
 
     @Override
     public void boardEdit(Board dto) throws Exception {
         boardDAO.boardEdit(dto);
+    }
+
+    @Override
+    public int totalCount(Page page) throws Exception {
+        return boardDAO.totalCount(page);
+    }
+
+    @Override
+    public List<BoardComment> boardCommentList(int bno) throws Exception {
+        return boardDAO.boardCommentList(bno);
+    }
+
+    @Override
+    public void commentInsert(BoardComment dto) throws Exception {
+        boardDAO.commentInsert(dto);
+    }
+
+    @Override
+    public void commentDelete(int cno) throws Exception {
+        boardDAO.commentDelete(cno);
+    }
+
+    @Override
+    public List<Board> selectComment() throws Exception {
+        return boardDAO.selectComment();
+    }
+
+    @Override
+    public List<Board> countComment() throws Exception {
+        return boardDAO.commentCount();
+    }
+
+    @Override
+    public List<Board> newBoard() throws Exception {
+        return boardDAO.newBoard();
     }
 }
